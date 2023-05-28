@@ -1,5 +1,7 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
+import { WebcamPanel } from '@/components/WebcamPanel/WebcamPanel'
+import { HandDetectionProvider } from '@/hand-detection/hooks/useHandDetection'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -9,13 +11,20 @@ export const metadata = {
 }
 
 export default function RootLayout({
-  children,
+  children
 }: {
   children: React.ReactNode
 }) {
+  // if user is authenticated, go to the desidered page, else, return to the login screen
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <HandDetectionProvider>
+          <WebcamPanel />
+          {children}
+        </HandDetectionProvider>
+      </body>
     </html>
   )
 }

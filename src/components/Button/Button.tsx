@@ -1,16 +1,20 @@
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, ReactNode } from "react";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> { 
-  layout: "primary" | "secondary"
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  text?: string
+  icon?: ReactNode
+  gestureBadgeEmoji?: string
 }
 
-export function Button({ layout, children, className, ...props }: ButtonProps) {
+export function Button({ icon, text, className, gestureBadgeEmoji, ...props }: ButtonProps) {
   return (
     <button
-      className={`${className} ${layout === "primary" ? "bg-green-600 text-zinc-100 border-green-600" : "bg-transparent text-green-500 border-green-500"} border rounded-lg font-bold flex items-center justify-center gap-2 px-6 py-4 transition-colors hover:bg-green-500 hover:border-green-500 disabled:bg-zinc-400 disabled:text-zinc-100 disabled:border-zinc-400 disabled:cursor-not-allowed`}
+      className={`relative flex items-center justify-center gap-2 rounded-lg ${className}`}
       {...props}
     >
-      {children}
+      {icon}
+      {text}
+      {gestureBadgeEmoji && <span className="rounded-full absolute right-[-20px] top-[-20px] bg-emerald-500 flex items-center justify-center text-xl h-10 w-10 z-20">{gestureBadgeEmoji}</span>}
     </button>
   )
 }
