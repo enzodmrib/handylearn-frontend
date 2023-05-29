@@ -29,7 +29,9 @@ export function Header() {
           id="logout_button"
           title='Sair'
           // onClick={() => console.log('logout')}
-          onClick={() => signOut()}
+          onClick={() => signOut({
+            callbackUrl: `${window.location.origin}/signin`
+          })}
           icon={<HiLogout size={32} />}
           gestureBadgeEmoji='🤙'
           className="p-2 text-zinc-300 border border-zinc-400 rounded-lg"

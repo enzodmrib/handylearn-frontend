@@ -9,9 +9,9 @@ export const authOptions = {
       clientSecret: process.env.GITHUB_SECRET ?? ''
     })
   ],
-  // pages: {
-  //   signIn: '/signin'
-  // }
+  pages: {
+    signIn: '/home'
+  }
 }
 
 const handler = NextAuth(authOptions)

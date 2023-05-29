@@ -22,7 +22,7 @@ export function WebcamPanel() {
   return (
     <div className="absolute bottom-6 left-4 flex gap-1 z-20">
       {/* {isWebcamVisible && ( */}
-      <div className={`relative p-2 rounded-lg bg-zinc-900 border-zinc-700 border ${!isWebcamVisible && 'h-0 w-0 p-0'}`}>
+      <div className={!isWebcamVisible ? 'h-0 w-0 p-0' : 'relative p-2 rounded-lg bg-zinc-900 border-zinc-700 border'}>
         <Webcam ref={webcamRef} className={`w-[320px] h-[240px] rounded-lg ${!isWebcamVisible && 'invisible h-0 w-0 p-0'}`} />
         <canvas ref={canvasRef} className={`absolute w-[320px] h-[240px] top-0 left-0 ${!isWebcamVisible && 'invisible h-0 w-0 p-0'}`}></canvas>
       </div>

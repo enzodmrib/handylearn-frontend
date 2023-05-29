@@ -1,5 +1,6 @@
 'use client'
 
+import { Loading } from '@/components/Loading'
 import { useSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
@@ -13,14 +14,10 @@ export default function Home() {
     }
   })
 
+  console.log(session)
+
   if (status === "loading") {
-    return (
-      <div className='flex items-center justify-center h-full'>
-        <span className='text-zinc-300'>
-          <AiOutlineLoading3Quarters size={32} className='animate-spin'/>
-        </span>
-      </div>
-    )
+    return <Loading />
   }
 
   return (
