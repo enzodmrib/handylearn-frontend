@@ -24,7 +24,8 @@ import '@tensorflow/tfjs-backend-webgl';
 import * as handpose from "@tensorflow-models/handpose";
 import { drawHand } from "../utils/utilities";
 
-import { loveYouGesture } from "../gestures/LoveYou";
+// import { loveYouGesture } from "../gestures/LoveYou";
+import { goodbyeGesture } from "../gestures/Goodbye";
 import { openGesture } from '../gestures/Open'
 import { closeGesture } from '../gestures/Close'
 import { thumbsUpGesture } from "../gestures/ThumbsUp";
@@ -100,7 +101,8 @@ export function HandDetectionProvider({ children }: HandDetectionContextProps) {
         const GE = new fp.GestureEstimator([
           // fp.Gestures.VictoryGesture,
           thumbsUpGesture,
-          loveYouGesture,
+          // loveYouGesture,
+          goodbyeGesture,
           openGesture,
           closeGesture,
           okGesture,
@@ -119,6 +121,7 @@ export function HandDetectionProvider({ children }: HandDetectionContextProps) {
 
           const maxScore = Math.max.apply(null, scores)
 
+          console.log(gesture)
 
           const maxScoreGestureIndex = scores.indexOf(maxScore);
 

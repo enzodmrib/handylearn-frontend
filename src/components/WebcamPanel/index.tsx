@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Webcam from 'react-webcam'
-import { Button } from "../Button/Button";
+import { Button } from "../Button";
 import { HiOutlineVideoCameraSlash, HiOutlineVideoCamera } from 'react-icons/hi2'
 import { useHandDetection } from "@/hand-detection/hooks/useHandDetection"
 
@@ -20,7 +20,15 @@ export function WebcamPanel() {
   }, [currentGesture])
 
   return (
-    <div className="absolute top-6 right-4 flex gap-1">
+    <div className="absolute bottom-6 left-4 flex gap-1 z-20">
+      {/* {isWebcamVisible && ( */}
+      <div className={`relative p-2 rounded-lg bg-zinc-900 border-zinc-700 border ${!isWebcamVisible && 'h-0 w-0 p-0'}`}>
+        <Webcam ref={webcamRef} className={`w-[320px] h-[240px] rounded-lg ${!isWebcamVisible && 'invisible h-0 w-0 p-0'}`} />
+        <canvas ref={canvasRef} className={`absolute w-[320px] h-[240px] top-0 left-0 ${!isWebcamVisible && 'invisible h-0 w-0 p-0'}`}></canvas>
+      </div>
+      {/* )
+      } */}
+
       <Button
         id='webcam-visible'
         title={isWebcamVisible ? 'Fechar Webcam' : 'Abrir Webcam'}
@@ -29,13 +37,6 @@ export function WebcamPanel() {
         gestureBadgeEmoji={isWebcamVisible ? "✊" : "✋"}
         className="rounded-lg p-4 bg-zinc-900 text-zinc-200 h-10 border-zinc-700 border"
       />
-      {/* {isWebcamVisible && ( */}
-      <div className={`relative p-2 rounded-lg bg-zinc-900 border-zinc-700 border ${!isWebcamVisible && 'h-0 w-0 p-0'}`}>
-        <Webcam ref={webcamRef} className={`w-[320px] h-[240px] z-10 rounded-lg border-zinc-700 border ${!isWebcamVisible && 'invisible h-0 w-0 p-0'}`} />
-        <canvas ref={canvasRef} className={`absolute w-[320px] h-[240px] z-10 top-0 left-0 ${!isWebcamVisible && 'invisible h-0 w-0 p-0'}`}></canvas>
-      </div>
-      {/* )
-      } */}
     </div>
   )
 }

@@ -8,28 +8,53 @@ const fingerJoints = {
 };
 
 // Infinity Gauntlet Style
+// const style = {
+//   0: { color: "yellow", size: 15 },
+//   1: { color: "gold", size: 6 },
+//   2: { color: "green", size: 10 },
+//   3: { color: "gold", size: 6 },
+//   4: { color: "gold", size: 6 },
+//   5: { color: "purple", size: 10 },
+//   6: { color: "gold", size: 6 },
+//   7: { color: "gold", size: 6 },
+//   8: { color: "gold", size: 6 },
+//   9: { color: "blue", size: 10 },
+//   10: { color: "gold", size: 6 },
+//   11: { color: "gold", size: 6 },
+//   12: { color: "gold", size: 6 },
+//   13: { color: "red", size: 10 },
+//   14: { color: "gold", size: 6 },
+//   15: { color: "gold", size: 6 },
+//   16: { color: "gold", size: 6 },
+//   17: { color: "orange", size: 10 },
+//   18: { color: "gold", size: 6 },
+//   19: { color: "gold", size: 6 },
+//   20: { color: "gold", size: 6 },
+// };
+
+// Green
 const style = {
-  0: { color: "yellow", size: 15 },
-  1: { color: "gold", size: 6 },
-  2: { color: "green", size: 10 },
-  3: { color: "gold", size: 6 },
-  4: { color: "gold", size: 6 },
-  5: { color: "purple", size: 10 },
-  6: { color: "gold", size: 6 },
-  7: { color: "gold", size: 6 },
-  8: { color: "gold", size: 6 },
-  9: { color: "blue", size: 10 },
-  10: { color: "gold", size: 6 },
-  11: { color: "gold", size: 6 },
-  12: { color: "gold", size: 6 },
-  13: { color: "red", size: 10 },
-  14: { color: "gold", size: 6 },
-  15: { color: "gold", size: 6 },
-  16: { color: "gold", size: 6 },
-  17: { color: "orange", size: 10 },
-  18: { color: "gold", size: 6 },
-  19: { color: "gold", size: 6 },
-  20: { color: "gold", size: 6 },
+  0: { color: "#10b981", size: 15 },
+  1: { color: "#10b981", size: 6 },
+  2: { color: "#10b981", size: 10 },
+  3: { color: "#10b981", size: 6 },
+  4: { color: "#10b981", size: 6 },
+  5: { color: "#10b981", size: 10 },
+  6: { color: "#10b981", size: 6 },
+  7: { color: "#10b981", size: 6 },
+  8: { color: "#10b981", size: 6 },
+  9: { color: "#10b981", size: 10 },
+  10: { color: "#10b981", size: 6 },
+  11: { color: "#10b981", size: 6 },
+  12: { color: "#10b981", size: 6 },
+  13: { color: "#10b981", size: 10 },
+  14: { color: "#10b981", size: 6 },
+  15: { color: "#10b981", size: 6 },
+  16: { color: "#10b981", size: 6 },
+  17: { color: "#10b981", size: 10 },
+  18: { color: "#10b981", size: 6 },
+  19: { color: "#10b981", size: 6 },
+  20: { color: "#10b981", size: 6 },
 };
 
 // Drawing function
@@ -60,7 +85,7 @@ export const drawHand = (predictions, ctx) => {
             landmarks[secondJointIndex][0],
             landmarks[secondJointIndex][1]
           );
-          ctx.strokeStyle = "plum";
+          ctx.strokeStyle = "#10b981";
           ctx.lineWidth = 4;
           ctx.stroke();
         }

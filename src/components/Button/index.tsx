@@ -9,7 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export function Button({ icon, text, className, gestureBadgeEmoji, ...props }: ButtonProps) {
   return (
     <button
-      className={`relative flex items-center justify-center gap-2 rounded-lg ${className}`}
+      className={`relative flex items-center justify-center gap-2 ${className}`}
       {...props}
     >
       {icon}

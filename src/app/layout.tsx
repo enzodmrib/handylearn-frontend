@@ -1,7 +1,8 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { WebcamPanel } from '@/components/WebcamPanel/WebcamPanel'
+import { WebcamPanel } from '@/components/WebcamPanel'
 import { HandDetectionProvider } from '@/hand-detection/hooks/useHandDetection'
+import CustomSessionProvider from './providers/CustomSessionProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,10 +20,12 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} h-screen scroll-smooth antialiased`}>
         <HandDetectionProvider>
-          <WebcamPanel />
-          {children}
+          <CustomSessionProvider>
+            <WebcamPanel />
+            {children}
+          </CustomSessionProvider>
         </HandDetectionProvider>
       </body>
     </html>
