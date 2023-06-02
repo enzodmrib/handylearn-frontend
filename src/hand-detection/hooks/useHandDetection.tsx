@@ -24,7 +24,7 @@ import '@tensorflow/tfjs-backend-webgl';
 import * as handpose from "@tensorflow-models/handpose";
 import { drawHand } from "../utils/utilities";
 
-// import { loveYouGesture } from "../gestures/LoveYou";
+import { iLoveYouGesture } from "../gestures/ILoveYou";
 import { goodbyeGesture } from "../gestures/Goodbye";
 import { openGesture } from '../gestures/Open'
 import { closeGesture } from '../gestures/Close'
@@ -47,7 +47,8 @@ interface HandDetectionContextProps {
 interface HandDetectionContextData {
   webcamRef: RefObject<Webcam>
   canvasRef: RefObject<HTMLCanvasElement>
-  currentGesture: string
+  currentGesture: string | null
+  setCurrentGesture: (gesture: string | null) => void
 }
 
 const HandDetectionContext = createContext({} as HandDetectionContextData);
@@ -56,9 +57,7 @@ export function HandDetectionProvider({ children }: HandDetectionContextProps) {
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  ///////// NEW STUFF ADDED STATE HOOK
-  const [currentGesture, setCurrentGesture] = useState('');
-  ///////// NEW STUFF ADDED STATE HOOK
+  const [currentGesture, setCurrentGesture] = useState<string | null>(null);
 
   const runHandpose = async () => {
     const net = await handpose.load();
@@ -101,7 +100,7 @@ export function HandDetectionProvider({ children }: HandDetectionContextProps) {
         const GE = new fp.GestureEstimator([
           // fp.Gestures.VictoryGesture,
           thumbsUpGesture,
-          // loveYouGesture,
+          iLoveYouGesture,
           goodbyeGesture,
           openGesture,
           closeGesture,
@@ -144,7 +143,7 @@ export function HandDetectionProvider({ children }: HandDetectionContextProps) {
   return (
     <HandDetectionContext.Provider
       value={{
-        webcamRef, canvasRef, currentGesture
+        webcamRef, canvasRef, currentGesture, setCurrentGesture
       }}
     >
       {children}

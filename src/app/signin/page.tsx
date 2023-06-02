@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import { signIn, useSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
 import { Loading } from '@/components/Loading'
+import { WebcamPanel } from '@/components/WebcamPanel'
 
 
 export default function SignIn() {
@@ -51,9 +52,10 @@ export default function SignIn() {
             callbackUrl: `${window.location.origin}/home`,
           })}
           gestureBadgeEmoji='👌'
-          className='text-xl p-4 rounded-lg border-zinc-200 border bg-zinc-200 text-zinc-900'
+          className='text-xl font-bold py-4 px-6 rounded-lg border-zinc-200 border bg-zinc-200 text-zinc-900'
         />
       </div>
+      <WebcamPanel />
     </main>
   )
 }

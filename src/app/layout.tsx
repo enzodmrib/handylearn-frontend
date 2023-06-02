@@ -23,7 +23,6 @@ export default function RootLayout({
       <body className={`${inter.className} h-screen scroll-smooth antialiased`}>
         <HandDetectionProvider>
           <CustomSessionProvider>
-            <WebcamPanel />
             {children}
           </CustomSessionProvider>
         </HandDetectionProvider>

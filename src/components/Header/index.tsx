@@ -34,7 +34,7 @@ export function Header() {
           })}
           icon={<HiLogout size={32} />}
           gestureBadgeEmoji='🤙'
-          className="p-2 text-zinc-300 border border-zinc-400 rounded-lg"
+          className="p-2 text-zinc-300 rounded-lg"
         />
       </div>
     </header>
