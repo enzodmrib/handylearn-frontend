@@ -10,7 +10,7 @@ import { useHandDetection } from '@/hand-detection/hooks/useHandDetection'
 import { useEffect } from 'react'
 
 export function Header() {
-  const { currentGesture } = useHandDetection()
+  const { currentGesture, setCurrentGesture } = useHandDetection()
 
   useEffect(() => {
     if (currentGesture === 'goodbye_gesture') {
@@ -28,10 +28,12 @@ export function Header() {
         <Button
           id="logout_button"
           title='Sair'
-          // onClick={() => console.log('logout')}
-          onClick={() => signOut({
-            callbackUrl: `${window.location.origin}/signin`
-          })}
+          onClick={() => {
+            signOut({
+              callbackUrl: `${window.location.origin}/signin`
+            })
+            setCurrentGesture(null)
+          }}
           icon={<HiLogout size={32} />}
           gestureBadgeEmoji='🤙'
           className="p-2 text-zinc-300 rounded-lg"

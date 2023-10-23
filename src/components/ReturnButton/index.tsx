@@ -11,8 +11,6 @@ export function ReturnButton({ className, ...props }: ReturnButtonProps) {
   const router = useRouter()
   const { currentGesture, setCurrentGesture } = useHandDetection()
 
-  console.log(currentGesture)
-
   useEffect(() => {
     if (currentGesture === 'i_love_you_gesture') {
       document.getElementById('return-button')?.click()

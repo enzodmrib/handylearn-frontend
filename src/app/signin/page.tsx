@@ -13,10 +13,8 @@ import { WebcamPanel } from '@/components/WebcamPanel'
 
 
 export default function SignIn() {
-  const { currentGesture } = useHandDetection()
+  const { currentGesture, setCurrentGesture } = useHandDetection()
   const { data: session, status } = useSession(); 
-
-  console.log(session)
 
   useEffect(() => {
     if(session && status === 'authenticated') {
@@ -47,10 +45,12 @@ export default function SignIn() {
           id="sign-in-button"
           icon={<FaGithub size={24} />}
           text="Entrar com GitHub"
-          // onClick={() => console.log('Login')}
-          onClick={() => signIn('github', {
-            callbackUrl: `${window.location.origin}/home`,
-          })}
+          onClick={() => {
+            signIn('github', {
+              callbackUrl: `${window.location.origin}/home`,
+            })
+            setCurrentGesture(null)
+          }}
           gestureBadgeEmoji='👌'
           className='text-xl font-bold py-4 px-6 rounded-lg border-zinc-200 border bg-zinc-200 text-zinc-900'
         />

@@ -14,8 +14,6 @@ export default function Course() {
   const { currentGesture, setCurrentGesture } = useHandDetection()
   const routeParams = useParams()
 
-  console.log(routeParams)
-
   useEffect(() => {
     if (currentGesture === 'one_gesture') {
       document.getElementById('module-0')?.click()
@@ -35,7 +33,7 @@ export default function Course() {
       <div className='mt-8 m-auto max-w-[1120px] relative flex flex-col gap-4 items-center'>
         <ReturnButton className="self-start" />
         <div className="flex flex-col gap-4 items-center">
-          <div className="rounded-full border-2 border-transparent ring-2 ring-emerald-500 w-fit">
+          <div className="rounded-full border-2 border-transparent ring-2 ring-zinc-200 w-fit">
             <Image
               src={currentCourse?.img ?? ""}
               alt="imagem do curso"

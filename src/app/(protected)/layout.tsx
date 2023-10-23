@@ -8,7 +8,7 @@ interface ProtectedLayoutProps {
 
 export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   return (
-    <main className='h-full bg-zinc-900'>
+    <main className='h-screen bg-zinc-900 overflow-hidden'>
       <Header />
       {children}
       <WebcamPanel />

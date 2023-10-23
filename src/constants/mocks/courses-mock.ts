@@ -40,26 +40,39 @@ export const modules = [
   },
 ]
 
-export const classes = [
-  {
-    id: 1,
-    moduleId: 1,
-    name: 'Aula 01',
-    type: "VIDEO",
-    contentLink: ""
-  },
-  {
-    id: 2,
-    moduleId: 1,
-    name: 'Aula 02',
-    type: "DOCUMENT",
-    contentLink: ""
-  },
-  {
-    id: 3,
-    moduleId: 1,
-    name: 'Aula 03',
-    type: "VIDEO",
-    contentLink: ""
-  },
-]
+export const classes: {
+  id: number;
+  moduleId: number;
+  name: string;
+  type: "VIDEO" | "DOCUMENT" | "TEST";
+  contentLink: string;
+}[] = [
+    {
+      id: 1,
+      moduleId: 1,
+      name: 'Aula 01',
+      type: "VIDEO",
+      contentLink: "https://www.youtube.com/embed/W6NZfCO5SIk"
+    },
+    {
+      id: 2,
+      moduleId: 1,
+      name: 'Aula 02',
+      type: "DOCUMENT",
+      contentLink: "https://medium.com/womakerscode/10-dicas-para-se-tornar-ninja-em-javascript-31a963ad17a1"
+    },
+    {
+      id: 3,
+      moduleId: 1,
+      name: 'Aula 03',
+      type: "VIDEO",
+      contentLink: "https://www.youtube.com/embed/W6NZfCO5SIk"
+    },
+    {
+      id: 4,
+      moduleId: 1,
+      name: 'Teste',
+      type: "TEST",
+      contentLink: ""
+    },
+  ]

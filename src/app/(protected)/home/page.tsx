@@ -17,6 +17,7 @@ import { courses } from '@/constants/mocks/courses-mock'
 import { useEffect, useState } from 'react'
 import { useHandDetection } from '@/hand-detection/hooks/useHandDetection'
 import { setConstantValue } from 'typescript'
+import { Avatar } from '@/components/Avatar'
 
 
 
@@ -36,8 +37,6 @@ export default function Home() {
 
   const gestureIcons = ['☝', '✌', threeFingerEmoji]
 
-  console.log(session)
-
   useEffect(() => {
     if (currentGesture === 'one_gesture') {
       document.getElementById('course-0')?.click()
@@ -45,6 +44,8 @@ export default function Home() {
       document.getElementById('course-1')?.click()
     } else if (currentGesture === 'three_gesture') {
       document.getElementById('course-2')?.click()
+    } else if (currentGesture === 'i_love_you_gesture') {
+      document.getElementById('profile-button')?.click()
     }
   }, [currentGesture])
 
@@ -55,25 +56,23 @@ export default function Home() {
   return (
     <div>
       <div className='mt-8 m-auto max-w-[1120px] flex gap-8'>
+        
         <aside className='bg-zinc-800 rounded-lg py-8 flex flex-col items-center gap-4 w-64 h-fit'>
-          <span className='w-fit rounded-full border-2 border-zinc-900 ring-2 ring-emerald-500'>
-            <Image
-              src={session.user?.image ?? ''}
-              width={60}
-              height={60}
-              alt="foto de perfil"
-              className='rounded-full'
-            />
-          </span>
+          <Avatar />
           <p className='font-bold text-zinc-200'>{session.user?.name}</p>
           <Button
+            id="profile-button"
             text="Ver Perfil"
             icon={<RiUserLine size={20} />}
             gestureBadgeEmoji='🤟'
-            onClick={() => router.push('/profile')}
+            onClick={() => {
+              router.push('/profile')
+              setCurrentGesture(null)
+            }}
             className='px-6 py-4 border-2 border-emerald-500 text-emerald-500 font-bold rounded-lg'
           />
         </aside>
+
         <section className='grow'>
           <div className='bg-zinc-800 rounded-lg p-4'>
             <h1 className='text-2xl font-bold text-zinc-200'>Cursos</h1>
@@ -84,6 +83,7 @@ export default function Home() {
               onChange={(event) => setSearch(event.target.value)}
             />
           </div>
+          
           <div className='mt-4 flex flex-col gap-4'>
             {resultCourses.length > 0
               ? resultCourses.map((course, index) => (
@@ -94,7 +94,7 @@ export default function Home() {
                   img={course.img}
                   gestureBadgeEmoji={gestureIcons[index]}
                   onClick={() => {
-                    router.push(`/course/${course.id}`)
+                    router.push(`/course/${course.id}/modules`)
                     setCurrentGesture(null)
                   }}
                 />
@@ -102,23 +102,7 @@ export default function Home() {
               :
               <p className='text-xl text-zinc-200'>Nenhum curso encontrado</p>
             }
-            {/* <CardSimple
-              gestureBadgeEmoji='☝'
-              img={jsLogo}
-              text="Curso Fundamentos Javascript"
-            />
-            <CardSimple
-              gestureBadgeEmoji='✌'
-              img={reactLogo}
-              text="Curso ReactJS"
-            />
-            <CardSimple
-              gestureBadgeEmoji={threeFingerEmoji}
-              img={nodeLogo}
-              text="Curso NodeJS"
-            /> */}
           </div>
-
         </section>
       </div>
     </div>
