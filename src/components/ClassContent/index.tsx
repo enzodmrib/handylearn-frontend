@@ -3,16 +3,17 @@ import { useEffect } from "react";
 import { Button } from "../Button";
 import { HiOutlineBookOpen, HiOutlinePencil } from "react-icons/hi2";
 import { BiEditAlt } from 'react-icons/bi'
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { Redirect } from "../Redirect";
 
 interface ClassContentProps {
   contentUrl: string
   classType: "VIDEO" | "DOCUMENT" | "TEST"
 }
 
-
 export function ClassContent({ contentUrl, classType }: ClassContentProps) {
   const router = useRouter()
+  const params = useParams()
   const { currentGesture, setCurrentGesture } = useHandDetection()
 
   useEffect(() => {
@@ -21,6 +22,7 @@ export function ClassContent({ contentUrl, classType }: ClassContentProps) {
     }
   }, [currentGesture])
 
+  console.log({ params })
 
   if (classType === "VIDEO") {
     return (
@@ -55,9 +57,10 @@ export function ClassContent({ contentUrl, classType }: ClassContentProps) {
     )
   } else {
     return (
-      <Button
+      <Redirect
         id="content-button"
         text={"Iniciar teste"}
+        href={`/course/${params.courseId}/modules/${params.moduleId}/classes/test`}
         className="font-bold border-2 border-emerald-500 text-emerald-500 flex items-center justify-center gap-2 py-4 px-6 rounded-lg"
         icon={<BiEditAlt size={32} />}
         onClick={() => {

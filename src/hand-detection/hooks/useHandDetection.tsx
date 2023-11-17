@@ -93,11 +93,8 @@ export function HandDetectionProvider({ children }: HandDetectionContextProps) {
       // Make Detections
       const hand = await net.estimateHands(video);
 
-      ///////// NEW STUFF ADDED GESTURE HANDLING
-
       if (hand.length > 0) {
         const GE = new fp.GestureEstimator([
-          // fp.Gestures.VictoryGesture,
           thumbsUpGesture,
           iLoveYouGesture,
           goodbyeGesture,
@@ -126,8 +123,6 @@ export function HandDetectionProvider({ children }: HandDetectionContextProps) {
           }
         }
       }
-
-      ///////// NEW STUFF ADDED GESTURE HANDLING
 
       // Draw mesh
       const ctx = canvasRef.current?.getContext("2d");

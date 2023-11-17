@@ -11,7 +11,11 @@ function getSavedValue(key: string, initialValue: any) {
 }
 
 export function useLocalStorage(key: string, initialValue: any) {
-  const [value, setValue] = useState(getSavedValue(key, initialValue))
+  const [value, setValue] = useState<any>()
+
+  useEffect(() => {
+    setValue(getSavedValue(key, initialValue))
+  }, [])
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(value))

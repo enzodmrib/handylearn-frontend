@@ -1,16 +1,18 @@
 import Image, { StaticImageData } from "next/image";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import Link from "next/link";
+import { ReactNode } from "react";
+import { NextLinkProps } from "../CourseCardSimple";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface AnchorProps extends NextLinkProps {
   text?: string
   icon?: ReactNode
   gestureBadgeEmoji?: string | StaticImageData
 }
 
-export function Button({ icon, text, className, gestureBadgeEmoji, ...props }: ButtonProps) {
+export function Redirect({ icon, text, className, gestureBadgeEmoji, ...props }: AnchorProps) {
   return (
-    <button
-      className={`relative flex items-center gap-2 ${className}`}
+    <Link
+      className={`relative flex items-center justify-center gap-2 ${className}`}
       {...props}
     >
       {icon}
@@ -25,6 +27,6 @@ export function Button({ icon, text, className, gestureBadgeEmoji, ...props }: B
           />
         }
       </span>}
-    </button>
+    </Link>
   )
 }

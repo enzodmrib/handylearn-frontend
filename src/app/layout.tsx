@@ -20,7 +20,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.className} h-screen scroll-smooth antialiased`}>
+      <body className={`${inter.className} h-screen scroll-smooth antialiased min-w-[600px]`}>
         <HandDetectionProvider>
           <CustomSessionProvider>
             {children}

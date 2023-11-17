@@ -2,24 +2,16 @@
 
 import { Loading } from '@/components/Loading'
 import { useSession } from 'next-auth/react'
-import Image from 'next/image'
 import { redirect } from 'next/navigation'
-import { Button } from '@/components/Button'
-import { RiUserLine } from 'react-icons/ri'
 import { useRouter } from 'next/navigation'
-import { Input } from '@/components/Input'
 import { CourseCardSimple } from '@/components/CourseCardSimple'
-import jsLogo from '@/assets/jsLogo.png'
-import reactLogo from '@/assets/reactLogo.png'
-import nodeLogo from '@/assets/nodeLogo.png'
+import { RiUserLine } from 'react-icons/ri'
 import threeFingerEmoji from '@/assets/three-fingers.png'
 import { courses } from '@/constants/mocks/courses-mock'
 import { useEffect, useState } from 'react'
 import { useHandDetection } from '@/hand-detection/hooks/useHandDetection'
-import { setConstantValue } from 'typescript'
 import { Avatar } from '@/components/Avatar'
-
-
+import { Redirect } from '@/components/Redirect'
 
 export default function Home() {
   const router = useRouter()
@@ -30,10 +22,6 @@ export default function Home() {
       redirect('/signin?callbackUrl=/home')
     }
   })
-
-  const [search, setSearch] = useState('')
-
-  const resultCourses = courses.filter(course => course.name.includes(search))
 
   const gestureIcons = ['☝', '✌', threeFingerEmoji]
 
@@ -55,18 +43,18 @@ export default function Home() {
 
   return (
     <div>
-      <div className='mt-8 m-auto max-w-[1120px] flex gap-8'>
-        
+      <div className='mt-8 m-auto max-w-[1120px] flex gap-8 [@media(max-width:1120px)]:flex-col [@media(max-width:1120px)]:items-center'>
+
         <aside className='bg-zinc-800 rounded-lg py-8 flex flex-col items-center gap-4 w-64 h-fit'>
           <Avatar />
           <p className='font-bold text-zinc-200'>{session.user?.name}</p>
-          <Button
+          <Redirect
             id="profile-button"
             text="Ver Perfil"
+            href={'/profile'}
             icon={<RiUserLine size={20} />}
             gestureBadgeEmoji='🤟'
             onClick={() => {
-              router.push('/profile')
               setCurrentGesture(null)
             }}
             className='px-6 py-4 border-2 border-emerald-500 text-emerald-500 font-bold rounded-lg'
@@ -74,27 +62,19 @@ export default function Home() {
         </aside>
 
         <section className='grow'>
-          <div className='bg-zinc-800 rounded-lg p-4'>
-            <h1 className='text-2xl font-bold text-zinc-200'>Cursos</h1>
-            <Input
-              placeholder='Pesquise cursos...'
-              className='w-full mt-4'
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-            />
-          </div>
-          
+          <h1 className='font-semibold text-white text-4xl'>Cursos</h1>
+
           <div className='mt-4 flex flex-col gap-4'>
-            {resultCourses.length > 0
-              ? resultCourses.map((course, index) => (
+            {courses.length > 0
+              ? courses.map((course, index) => (
                 <CourseCardSimple
                   id={`course-${index}`}
                   key={course.name}
                   text={course.name}
                   img={course.img}
                   gestureBadgeEmoji={gestureIcons[index]}
+                  href={`/course/${course.id}/modules`}
                   onClick={() => {
-                    router.push(`/course/${course.id}/modules`)
                     setCurrentGesture(null)
                   }}
                 />

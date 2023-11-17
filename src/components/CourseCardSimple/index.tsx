@@ -1,27 +1,29 @@
 import Image, { StaticImageData } from "next/image"
-import { ButtonHTMLAttributes } from "react"
+import Link, { LinkProps } from "next/link"
+import { AnchorHTMLAttributes, HTMLProps } from "react"
 import { HiArrowRight } from "react-icons/hi2"
 
-interface CourseCardSimpleProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export type NextLinkProps = LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>
+interface CourseCardSimpleProps extends NextLinkProps {
   img: string | StaticImageData
   text: string
   gestureBadgeEmoji: string | StaticImageData
 }
 
-export function CourseCardSimple({ img, text, gestureBadgeEmoji, ...props }: CourseCardSimpleProps) {
+export function CourseCardSimple({ img, text, gestureBadgeEmoji,...props }: CourseCardSimpleProps) {
   return (
-    <button
+    <Link
       className='relative w-full bg-zinc-800 rounded-lg border-2 border-zinc-400 text-zinc-200 text-xl flex h-[8.75rem]'
       {...props}
     >
       <Image
         src={img}
         alt="imagem do curso"
-        width={136}
-        height={136}
+        width={137}
+        height={137}
       />
       <div className="relative p-4 flex items-end grow h-full">
-        <span className="font-bold ">{text}</span>
+        <span className="font-semibold">{text}</span>
         <HiArrowRight size={32} className="absolute top-4 right-4" />
       </div>
       {gestureBadgeEmoji && <span className="rounded-full absolute right-[-20px] top-[-20px] bg-emerald-500 flex items-center justify-center text-xl h-10 w-10 z-20">
@@ -36,6 +38,6 @@ export function CourseCardSimple({ img, text, gestureBadgeEmoji, ...props }: Cou
           />
         }
       </span>}
-    </button>
+    </Link>
   )
 }
