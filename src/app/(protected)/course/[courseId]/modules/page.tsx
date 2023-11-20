@@ -2,7 +2,7 @@
 
 import { ReturnButton } from "@/components/ReturnButton";
 import { useParams } from "next/navigation";
-import { courses } from "@/constants/mocks/courses-mock";
+import { courses } from "@/constants/mocks/course-listing-mock";
 import Image from "next/image";
 import { ModuleCard } from "@/components/ModuleCard";
 import threeFingerEmoji from '@/assets/three-fingers.png'
@@ -24,15 +24,15 @@ export default function Course() {
     }
   }, [currentGesture])
 
-  const currentCourse = courses.find(course => course.id === routeParams.courseId)
+  const currentCourse = courses.find(course => course.id === Number(routeParams.courseId))
 
   const gestureIcons = ['☝', '✌', threeFingerEmoji]
 
   return (
     <div>
-      <div className='mt-8 m-auto max-w-[1120px] relative flex flex-col gap-4 items-center'>
+      <div className='mt-8 m-auto max-w-[1120px] relative flex flex-col items-center'>
         <ReturnButton className="self-start" />
-        <div className="flex flex-col gap-4 items-center">
+        <div className="flex flex-col items-center">
           <div className="rounded-full border-2 border-transparent ring-2 ring-zinc-200 w-fit">
             <Image
               src={currentCourse?.img ?? ""}
@@ -44,19 +44,21 @@ export default function Course() {
           </div>
         </div>
 
-        <p className="text-lg text-zinc-200 font-bold w-fit">Curso - {currentCourse?.name}</p>
+        <p className="text-zinc-200 font-bold w-fit my-4">Curso - {currentCourse?.name}</p>
 
-        {modules.map((module, index) => (
-          <ModuleCard
-            id={`module-${index}`}
-            key={module.id}
-            title={module.name}
-            description={module.description}
-            href={`/course/${routeParams.courseId}/modules/${module.id}/classes/1`}
-            gestureBadgeEmoji={gestureIcons[index]}
-            onClick={() => setCurrentGesture(null)}
-          />
-        ))}
+        <div className="max-w-[52rem] flex flex-col gap-4">
+          {modules.map((module, index) => (
+            <ModuleCard
+              id={`module-${index}`}
+              key={module.id}
+              title={module.name}
+              description={module.description}
+              href={`/course/${routeParams.courseId}/modules/${module.id}/classes/1`}
+              gestureBadgeEmoji={gestureIcons[index]}
+              onClick={() => setCurrentGesture(null)}
+            />
+          ))}
+        </div>
 
       </div>
     </div>

@@ -1,12 +1,14 @@
 interface Course {
-  id: string
+  id: number
+  code: string
   name: string
   modules: Module[]
   img: string | StaticImageData
+
 }
 
 interface Module {
-  id: string
+  id: number
   classes: Class[]
   test: Test
   name: string
@@ -14,25 +16,25 @@ interface Module {
 }
 
 interface Class {
-  id: string
+  id: number
   name: string
   type: "VIDEO" | "DOCUMENT"
   contentLink: string
 }
 
 interface Test {
-  id: string
+  id: number
   questions: Question[]
 }
 
 interface Question {
-  id: string
+  id: number
   text: string
   alternatives: Alternative[]
 }
 
 interface Alternative {
-  id: string
+  id: number
   text: string
   isCorrect: boolean
 }

@@ -19,6 +19,7 @@ export function ReturnButton({ className, ...props }: ReturnButtonProps) {
 
   return (
     <button
+      type="button"
       id="return-button"
       className={`${className} relative w-10 h-10 text-zinc-200`}
       onClick={() => {

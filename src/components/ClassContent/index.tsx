@@ -22,8 +22,6 @@ export function ClassContent({ contentUrl, classType }: ClassContentProps) {
     }
   }, [currentGesture])
 
-  console.log({ params })
-
   if (classType === "VIDEO") {
     return (
       // <iframe

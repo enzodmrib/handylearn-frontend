@@ -3,42 +3,115 @@
 import { Button } from "@/components/Button";
 import { ReturnButton } from "@/components/ReturnButton";
 import { courses } from "@/constants/mocks/course-listing-mock";
+import { useHandDetection } from "@/hand-detection/hooks/useHandDetection";
+import threeFingerEmoji from '@/assets/three-fingers.png'
 import { useParams } from "next/navigation";
+import { RiArrowGoBackLine, RiArrowRightLine, RiCheckLine } from "react-icons/ri";
+import { FormEvent, useState } from 'react'
 
 export default function Test() {
+  const { currentGesture, setCurrentGesture } = useHandDetection()
   const routeParams = useParams()
 
-  const currentCourse = courses.find(course => course.id === routeParams.courseId)
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  const currentModule = currentCourse?.modules.find(module => module.id = routeParams.moduleId)
+  const [testAnswerIds, setTestAnswerIds] = useState<Array<number | null>>([null, null, null])
+
+  const currentCourse = courses.find(course => course.id === Number(routeParams.courseId))
+
+  const currentModule = currentCourse?.modules.find(module => module.id === Number(routeParams.moduleId))
 
   const test = currentModule?.test
 
-  const question = test?.questions[0]
+  const question = test?.questions[currentQuestionIndex]
 
-  console.log({ routeParams, currentCourse, currentModule })
+  const questionGestureIcons = ['☝', '✌', threeFingerEmoji]
+  const alternativeLetters = ['A', 'B', 'C']
+
+  function handleSubmitTestAnswers(event: FormEvent) {
+    event.preventDefault()
+    console.log('submited')
+  }
+
+  if (!test) {
+    return
+  }
 
   return (
-    <div className='mt-8 m-auto max-w-[1120px]'>
-      <div className="bg-zinc-800 rounded-lg p-4 text-zinc-300 font-bold flex flex-col items-center gap-4">
+    <form onSubmit={handleSubmitTestAnswers} className='mt-8 m-auto max-w-[1120px]'>
+      <div className="bg-zinc-800 rounded-lg p-4 text-zinc-300 font-bold flex flex-col items-center">
         <ReturnButton className="self-start" />
-        <h1>{currentCourse?.name}</h1>
-        <h2>{currentModule?.name}</h2>
-        <p>Questão x/x</p>
-        <p>Pergunta</p>
-        {question?.alternatives.map((alternative, index) => {
-          const letters = ['A', 'B', 'C']
+        <div className="flex flex-col items-center gap-2 mb-8">
+          <h1 className="text-2xl">{currentCourse?.name}</h1>
+          <h2>{currentModule?.name}</h2>
+          <p className="text-xl">{`Questão ${currentQuestionIndex + 1}/${test?.questions.length}`}</p>
+        </div>
 
-          return (
+        <div className="w-full flex flex-col gap-6 max-w-[52rem]">
+          <p className="text-xl">Pergunta</p>
+          {question?.alternatives.map((alternative, index) => (
             <Button
+              type="button"
               key={alternative.id}
-              
-              className="bg-zinc-900 border-2 rounded-lg border-zinc-700 p-4 w-full justify-start"
-              text={`${letters[index]}) ${alternative.text}`}
+              className={`
+              ${(testAnswerIds[currentQuestionIndex] === alternative.id)
+                  ? "border-emerald-500 text-emerald-500"
+                  : "border-zinc-700"}
+              bg-zinc-900 border-2 rounded-lg p-4 w-full justify-start 
+                  `}
+              text={`${alternativeLetters[index]}) ${alternative.text}`}
+              gestureBadgeEmoji={questionGestureIcons[index]}
+              onClick={() => {
+                setTestAnswerIds(testAnswerIds.map((answer, answerIndex) => (
+                  answerIndex === currentQuestionIndex ? alternative.id : answer)
+                ))
+                setCurrentGesture(null)
+              }}
             />
-          )
-        })}
+          ))}
+        </div>
+        <footer className="flex items-center mt-8 gap-12">
+          {currentQuestionIndex >= 1 && <Button
+            type="button"
+            text="Anterior"
+            icon={<RiArrowGoBackLine />}
+            onClick={() => {
+              setCurrentQuestionIndex((prevState) => prevState - 1)
+              setCurrentGesture(null)
+            }}
+            gestureBadgeEmoji='👈'
+            className="p-4 border-2 border-zinc-300 rounded-lg"
+          />}
+
+          {(currentQuestionIndex + 1) < test?.questions.length && (
+            <Button
+              type="button"
+              text="Próximo"
+              icon={<RiArrowRightLine />}
+              onClick={() => {
+                setCurrentQuestionIndex(currentQuestionIndex + 1)
+                setCurrentGesture(null)
+              }}
+              gestureBadgeEmoji='👉'
+              className="p-4 border-2 border-zinc-300 rounded-lg"
+            />
+          )}
+
+          {(currentQuestionIndex + 1) === test?.questions.length && (
+            <Button
+              type="submit"
+              text="Ok!"
+              icon={<RiCheckLine />}
+              onClick={() => {
+                console.log("click")
+                setCurrentGesture(null)
+              }}
+              gestureBadgeEmoji='👍'
+              className="p-4 border-2 border-emerald-500 text-emerald-500 rounded-lg"
+            />
+          )}
+        </footer>
       </div>
-    </div>
+    </form>
   )
 }
