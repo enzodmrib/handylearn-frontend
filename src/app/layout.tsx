@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import { WebcamPanel } from '@/components/WebcamPanel'
 import { HandDetectionProvider } from '@/hand-detection/hooks/useHandDetection'
 import CustomSessionProvider from './providers/CustomSessionProvider'
+import Loading from './loading'
+import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +25,9 @@ export default function RootLayout({
       <body className={`${inter.className} h-screen scroll-smooth antialiased min-w-[600px]`}>
         <HandDetectionProvider>
           <CustomSessionProvider>
-            {children}
+            <Suspense fallback={<Loading />}>
+              {children}
+            </Suspense>
           </CustomSessionProvider>
         </HandDetectionProvider>
       </body>

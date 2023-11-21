@@ -2,19 +2,18 @@
 
 import { ReturnButton } from "@/components/ReturnButton"
 import { useParams } from "next/navigation"
-import { classes, modules } from "@/constants/mocks/courses-mock"
 import Image from "next/image"
 import threeFingerEmoji from '@/assets/three-fingers.png'
 import { ClassSelector } from "@/components/ClassSelector"
 import { ClassContent } from "@/components/ClassContent"
-
-
+import { courses } from "@/constants/mocks/course-listing-mock"
 
 export default function Class() {
   const routeParams = useParams()
 
-  const currentModule = modules.find(courseModule => String(courseModule.id) === routeParams.moduleId)
-  const currentClass = classes.find(moduleClass => String(moduleClass.id) === routeParams.classNumber)
+  const currentCourse = courses.find(course => course.id === Number(routeParams.courseId))
+  const currentModule = currentCourse?.modules.find(courseModule => String(courseModule.id) === routeParams.moduleId)
+  const currentClass = currentModule?.classes.find(moduleClass => String(moduleClass.id) === routeParams.classNumber)
 
   if (!currentClass) {
     return <p>An error ocurred</p>
@@ -27,17 +26,17 @@ export default function Class() {
           <ReturnButton className="self-start" />
           <div className="flex flex-col items-center gap-2">
             <h1 className="text-2xl">{currentClass?.name}</h1>
-            <p>{currentModule?.name}:{currentClass?.name}</p>
+            <p>{currentModule?.name}: {currentClass?.name}</p>
 
             <ClassContent
               classType={currentClass.type}
               contentUrl={currentClass?.contentLink}
             />
 
-            <ClassSelector
-              classes={classes}
+            {<ClassSelector
+              classes={currentModule?.classes ?? [] as Class[]}
               currentClassNumber={Number(routeParams.classNumber)}
-            />
+            />}
           </div>
         </div>
       </div>

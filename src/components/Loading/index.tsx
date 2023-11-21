@@ -1,6 +1,6 @@
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-export function Loading() {
+export function CustomLoading() {
   return (
     <div className='flex items-center justify-center h-full'>
       <span className='text-zinc-300'>

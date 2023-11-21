@@ -18,7 +18,7 @@ interface Module {
 interface Class {
   id: number
   name: string
-  type: "VIDEO" | "DOCUMENT"
+  type: "VIDEO" | "DOCUMENT" | "TEST"
   contentLink: string
 }
 
@@ -31,10 +31,10 @@ interface Question {
   id: number
   text: string
   alternatives: Alternative[]
+  correctAlternativeId: number
 }
 
 interface Alternative {
   id: number
   text: string
-  isCorrect: boolean
 }

@@ -3,7 +3,9 @@ import { useEffect, useState, useReducer } from 'react'
 function getSavedValue(key: string, initialValue: any) {
   const savedValue = localStorage.getItem(key)
 
-  if (savedValue) return JSON.parse(savedValue)
+  if (savedValue && savedValue !== "undefined") {
+    return JSON.parse(savedValue)
+  }
 
   if (initialValue instanceof Function) return initialValue()
 

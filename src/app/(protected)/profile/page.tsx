@@ -2,23 +2,19 @@
 
 import { Avatar } from "@/components/Avatar";
 import { CourseCardDetailed } from "@/components/CourseCardDetailed";
-import { Loading } from "@/components/Loading";
 import { ReturnButton } from "@/components/ReturnButton";
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
-import { courses } from "@/constants/mocks/courses-mock";
 import threeFingerEmoji from '@/assets/three-fingers.png'
 import { useHandDetection } from "@/hand-detection/hooks/useHandDetection";
 import { useEffect } from "react";
+import { courses } from "@/constants/mocks/course-listing-mock";
 
 
 export default function Profile() {
   const router = useRouter()
-  const { data: session, status } = useSession({
+  const { data: session } = useSession({
     required: true,
-    onUnauthenticated() {
-      redirect('/signin?callbackUrl=/home')
-    }
   })
   const { currentGesture, setCurrentGesture } = useHandDetection()
 
@@ -34,9 +30,14 @@ export default function Profile() {
     }
   }, [currentGesture])
 
-
-  if (status === "loading") {
-    return <Loading />
+  if(!session) {
+    return (
+      <div>
+        <p>
+          Usuário não está autenticado
+        </p>
+      </div>
+    )
   }
 
   return (

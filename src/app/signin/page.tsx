@@ -8,7 +8,7 @@ import { useHandDetection } from '@/hand-detection/hooks/useHandDetection'
 import { useEffect } from 'react'
 import { signIn, useSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
-import { Loading } from '@/components/Loading'
+import { CustomLoading } from '@/components/Loading'
 import { WebcamPanel } from '@/components/WebcamPanel'
 
 
@@ -27,14 +27,6 @@ export default function SignIn() {
       document.getElementById('sign-in-button')?.click()
     }
   }, [currentGesture])
-
-  if(status === 'loading') {
-    return (
-      <main className="bg-zinc-800 flex items-center justify-center h-full">
-        <Loading />
-      </main>
-    )
-  }
 
   return (
     <main className="bg-zinc-800 flex items-center justify-center h-full">

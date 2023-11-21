@@ -10,7 +10,6 @@ interface ClassSelectorProps {
   currentClassNumber: number
   classes: {
     id: number,
-    moduleId: number,
     name: string,
     type: string,
     contentLink: string

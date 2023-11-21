@@ -6,7 +6,6 @@ import { courses } from "@/constants/mocks/course-listing-mock";
 import Image from "next/image";
 import { ModuleCard } from "@/components/ModuleCard";
 import threeFingerEmoji from '@/assets/three-fingers.png'
-import { modules } from "@/constants/mocks/courses-mock";
 import { useHandDetection } from "@/hand-detection/hooks/useHandDetection";
 import { useEffect } from "react";
 
@@ -25,6 +24,7 @@ export default function Course() {
   }, [currentGesture])
 
   const currentCourse = courses.find(course => course.id === Number(routeParams.courseId))
+  const modules = currentCourse?.modules
 
   const gestureIcons = ['☝', '✌', threeFingerEmoji]
 
@@ -47,7 +47,7 @@ export default function Course() {
         <p className="text-zinc-200 font-bold w-fit my-4">Curso - {currentCourse?.name}</p>
 
         <div className="max-w-[52rem] flex flex-col gap-4">
-          {modules.map((module, index) => (
+          {modules && modules.map((module, index) => (
             <ModuleCard
               id={`module-${index}`}
               key={module.id}

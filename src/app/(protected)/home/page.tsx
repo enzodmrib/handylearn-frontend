@@ -1,6 +1,5 @@
 'use client'
 
-import { Loading } from '@/components/Loading'
 import { useSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
 import { useRouter } from 'next/navigation'
@@ -14,13 +13,9 @@ import { Avatar } from '@/components/Avatar'
 import { Redirect } from '@/components/Redirect'
 
 export default function Home() {
-  const router = useRouter()
   const { currentGesture, setCurrentGesture } = useHandDetection()
-  const { data: session, status } = useSession({
+  const { data: session } = useSession({
     required: true,
-    onUnauthenticated() {
-      redirect('/signin?callbackUrl=/home')
-    }
   })
 
   const gestureIcons = ['☝', '✌', threeFingerEmoji]
@@ -37,17 +32,13 @@ export default function Home() {
     }
   }, [currentGesture])
 
-  if (status === "loading") {
-    return <Loading />
-  }
-
   return (
     <div>
       <div className='mt-8 m-auto max-w-[1120px] flex gap-8 [@media(max-width:1120px)]:flex-col [@media(max-width:1120px)]:items-center'>
 
         <aside className='bg-zinc-800 rounded-lg py-8 flex flex-col items-center gap-4 w-64 h-fit'>
           <Avatar />
-          <p className='font-bold text-zinc-200'>{session.user?.name}</p>
+          <p className='font-bold text-zinc-200'>{session!.user?.name}</p>
           <Redirect
             id="profile-button"
             text="Ver Perfil"
