@@ -3,23 +3,25 @@
 import { CourseCardSimple } from '@/components/CourseCardSimple'
 import { RiUserLine } from 'react-icons/ri'
 import threeFingerEmoji from '@/assets/three-fingers.png'
-import { courses } from '@/constants/mocks/course-listing-mock'
 import { useEffect, useState, useContext } from 'react'
 import { useHandDetection } from '@/hand-detection/hooks/useHandDetection'
 import { Avatar } from '@/components/Avatar'
 import { Redirect } from '@/components/Redirect'
 import { GithubSession } from '@/app/providers/GithubSessionProvider'
-import { doc, getDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
 import { db } from '@/libs/firebase'
+import { CustomLoading } from '@/components/Loading'
 
 export default function Home() {
   const { currentGesture, setCurrentGesture } = useHandDetection()
   const { user } = useContext(GithubSession)
+  const [courses, setCourses] = useState<Course[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const gestureIcons = ['☝', '✌', threeFingerEmoji]
 
   useEffect(() => {
-    initializeFirestore()
+    getCourses()
   }, [])
 
   useEffect(() => {
@@ -34,15 +36,23 @@ export default function Home() {
     }
   }, [currentGesture])
 
-  async function initializeFirestore() {
-    // const coursesRef = collection(db, "courses");
+  async function getCourses() {
+    setIsLoading(true)
 
-    // console.log(coursesRef)
+    const courseCollection = await getDocs(collection(db, 'courses'))
+    const courses = courseCollection.docs.map((doc) => ({ 
+      id: doc.data().id, 
+      img: doc.data().img, 
+      name: doc.data().name 
+    }))
 
-    const docRef = doc(db, "courses", "1");
-    const docSnap = await getDoc(docRef);
+    setCourses(courses as Course[])
 
-    console.log(docSnap.data())
+    setIsLoading(false)
+  }
+
+  if(isLoading) {
+    return <CustomLoading />
   }
 
   return (

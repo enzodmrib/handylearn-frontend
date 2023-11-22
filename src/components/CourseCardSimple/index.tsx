@@ -11,6 +11,8 @@ interface CourseCardSimpleProps extends NextLinkProps {
 }
 
 export function CourseCardSimple({ img, text, gestureBadgeEmoji,...props }: CourseCardSimpleProps) {
+  console.log(img)
+
   return (
     <Link
       className='relative w-full bg-zinc-800 rounded-lg border-2 border-zinc-400 text-zinc-200 text-xl flex h-[8.75rem]'
@@ -21,6 +23,7 @@ export function CourseCardSimple({ img, text, gestureBadgeEmoji,...props }: Cour
         alt="imagem do curso"
         width={137}
         height={137}
+        className="rounded-lg"
       />
       <div className="relative p-4 flex items-end grow h-full">
         <span className="font-semibold">{text}</span>

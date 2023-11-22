@@ -3,7 +3,12 @@ const nextConfig = {
 
   images: {
     domains: [
-      'avatars.githubusercontent.com'
+      'avatars.githubusercontent.com',
+      'www.google.com',
+      'upload.wikimedia.org',
+      'www.stickersdevs.com.br',
+      'cdn.freebiesupply.com',
+      'miro.medium.com'
     ]
   }
 }
