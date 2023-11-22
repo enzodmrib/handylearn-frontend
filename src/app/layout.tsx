@@ -5,6 +5,7 @@ import { HandDetectionProvider } from '@/hand-detection/hooks/useHandDetection'
 import CustomSessionProvider from './providers/CustomSessionProvider'
 import Loading from './loading'
 import { Suspense } from 'react'
+import GithubSessionProvider from './providers/GithubSessionProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,11 +25,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} h-screen scroll-smooth antialiased min-w-[600px]`}>
         <HandDetectionProvider>
-          <CustomSessionProvider>
+          <GithubSessionProvider>
             <Suspense fallback={<Loading />}>
               {children}
             </Suspense>
-          </CustomSessionProvider>
+          </GithubSessionProvider>
         </HandDetectionProvider>
       </body>
     </html>

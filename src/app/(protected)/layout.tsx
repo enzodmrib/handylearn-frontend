@@ -2,45 +2,35 @@
 
 import { Header } from '@/components/Header'
 import { WebcamPanel } from '@/components/WebcamPanel'
-import { ReactNode, Suspense } from 'react'
-import Loading from './loading'
-import { useSession } from 'next-auth/react'
-import { redirect } from 'next/navigation'
+import { ReactNode, Suspense, useContext, useEffect } from 'react'
 import { CustomLoading } from '@/components/Loading'
+import { GithubSession } from '../providers/GithubSessionProvider'
+import { redirect } from 'next/navigation'
 
 interface ProtectedLayoutProps {
   children: ReactNode
 }
 
 export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
-  const { data: session, status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect('/signin?callbackUrl=/home')
+  const { user, isLoadingSession } = useContext(GithubSession)
+
+  useEffect(() => {
+    if (!user && !isLoadingSession) {
+      redirect('/signin')
     }
-  })
+  }, [user])
 
-  if (status === 'loading') {
-    return (
-      <main className='h-full bg-zinc-900'>
-        <CustomLoading />
-      </main>
-    )
-  }
-
-  if (!session && status !== 'loading') {
-    return (
-      <main className='h-full bg-zinc-900'>
-        <p className='text-zinc-500'>Usuário não está autenticado</p>
-      </main>
-    )
+  if(isLoadingSession) {
+    return <CustomLoading />
   }
 
   return (
     <main className='h-full bg-zinc-900'>
-      <Header />
-      {children}
-      <WebcamPanel />
+      <Suspense fallback={<CustomLoading />}>
+        <Header />
+        {children}
+        <WebcamPanel />
+      </Suspense>
     </main>
   )
 }

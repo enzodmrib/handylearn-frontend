@@ -1,13 +1,14 @@
-import { useSession } from "next-auth/react"
+import { GithubSession } from "@/app/providers/GithubSessionProvider"
 import Image from "next/image"
+import { useContext } from 'react'
 
 export function Avatar() {
-  const { data: session } = useSession()
+  const { user } = useContext(GithubSession)
 
   return (
     <span className='w-fit rounded-full border-2 border-zinc-900 ring-2 ring-emerald-500'>
       <Image
-        src={session?.user?.image ?? ''}
+        src={user?.photoURL ?? ''}
         width={60}
         height={60}
         alt="foto de perfil"

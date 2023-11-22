@@ -5,22 +5,22 @@ import handylearnLogo from '../../../public/logo.svg'
 import { Button } from '@/components/Button'
 import { FaGithub } from 'react-icons/fa'
 import { useHandDetection } from '@/hand-detection/hooks/useHandDetection'
-import { useEffect } from 'react'
-import { signIn, useSession } from 'next-auth/react'
+import { useContext, useEffect } from 'react'
 import { redirect } from 'next/navigation'
 import { CustomLoading } from '@/components/Loading'
 import { WebcamPanel } from '@/components/WebcamPanel'
+import { GithubSession } from '../providers/GithubSessionProvider'
 
 
 export default function SignIn() {
   const { currentGesture, setCurrentGesture } = useHandDetection()
-  const { data: session, status } = useSession(); 
+  const { user, githubSignIn } = useContext(GithubSession)
 
   useEffect(() => {
-    if(session && status === 'authenticated') {
+    if(user) {
       redirect('/home')
     }
-  }, [session, status])
+  }, [user])
 
   useEffect(() => {
     if (currentGesture === 'ok_gesture') {
@@ -28,19 +28,24 @@ export default function SignIn() {
     }
   }, [currentGesture])
 
+  async function handleSignIn() {
+    try {
+      await githubSignIn()
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <main className="bg-zinc-800 flex items-center justify-center h-full">
       <div className='flex flex-col items-center gap-10'>
         <Image src={handylearnLogo} alt="handylearn logo" />
-
         <Button
           id="sign-in-button"
           icon={<FaGithub size={24} />}
           text="Entrar com GitHub"
           onClick={() => {
-            signIn('github', {
-              callbackUrl: `${window.location.origin}/home`,
-            })
+            handleSignIn()
             setCurrentGesture(null)
           }}
           gestureBadgeEmoji='👌'

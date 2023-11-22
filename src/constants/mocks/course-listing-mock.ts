@@ -362,19 +362,19 @@ export const courses: Course[] = [
             id: 13,
             name: "Introdução ao React",
             type: "VIDEO",
-            contentLink: "link_para_video_intro_react"
+            contentLink: "https://www.youtube.com/embed/FXqX7oof0I4?si=r0aiYzzA6zdUSBfw"
           },
           {
             id: 14,
             name: "Componentes e Props",
             type: "DOCUMENT",
-            contentLink: "link_para_conteudo_componentes_props"
+            contentLink: "https://pt-br.legacy.reactjs.org/docs/components-and-props.html"
           },
           {
             id: 15,
             name: "Estado e Ciclo de Vida",
             type: "VIDEO",
-            contentLink: "link_para_video_estado_ciclo_vida"
+            contentLink: "https://www.youtube.com/embed/KgpX5ng3-5A?si=DghLnEWodB0H19qZ"
           },
           {
             id: 16,
@@ -474,19 +474,19 @@ export const courses: Course[] = [
             id: 17,
             name: "Redux e Gerenciamento de Estado",
             type: "VIDEO",
-            contentLink: "link_para_video_redux_gerenciamento_estado"
+            contentLink: "https://www.youtube.com/embed/u99tNt3TZf8?si=dJpurIexsM3hGm51"
           },
           {
             id: 18,
             name: "Hooks em React",
             type: "DOCUMENT",
-            contentLink: "link_para_conteudo_hooks"
+            contentLink: "https://legacy.reactjs.org/docs/hooks-intro.html"
           },
           {
             id: 19,
             name: "Roteamento com React Router",
             type: "VIDEO",
-            contentLink: "link_para_video_react_router"
+            contentLink: "https://www.youtube.com/embed/7b42lVMdEjE?si=wh6ZTX725x6Cf3_v"
           },
           {
             id: 20,
@@ -594,19 +594,19 @@ export const courses: Course[] = [
             id: 1,
             name: "Introdução ao Node.js",
             type: "VIDEO",
-            contentLink: "link_para_video_intro_nodejs"
+            contentLink: "https://www.youtube.com/embed/LLqq6FemMNQ?si=yqYG3rIdrBbXwXF2"
           },
           {
             id: 2,
             name: "Configuração do Ambiente",
             type: "DOCUMENT",
-            contentLink: "link_para_conteudo_configuracao"
+            contentLink: "https://developer.mozilla.org/pt-BR/docs/Learn/Server-side/Express_Nodejs/development_environment"
           },
           {
             id: 3,
             name: "Node.js e NPM",
             type: "VIDEO",
-            contentLink: "link_para_video_nodejs_npm"
+            contentLink: "https://www.youtube.com/embed/7iSylg2UvU0?si=exQWQ1bSvysBysPY"
           },
           {
             id: 4,
@@ -706,19 +706,19 @@ export const courses: Course[] = [
             id: 5,
             name: "Introdução ao Express.js",
             type: "VIDEO",
-            contentLink: "link_para_video_intro_express"
+            contentLink: "https://www.youtube.com/embed/pohvlFd0byI?si=KTUItuxhn21TOpsK"
           },
           {
             id: 6,
             name: "Rotas e Controladores",
             type: "DOCUMENT",
-            contentLink: "link_para_conteudo_rotas_controladores"
+            contentLink: "https://blog.4linux.com.br/como-organizar-e-manipular-rotas-com-node-js-e-express/"
           },
           {
             id: 7,
             name: "Middleware e Autenticação",
             type: "VIDEO",
-            contentLink: "link_para_video_middleware_autenticacao"
+            contentLink: "https://www.youtube.com/embed/DMpfNXiPkSQ?si=oZmW4aMHGWwVJyPC"
           },
           {
             id: 8,
@@ -818,19 +818,19 @@ export const courses: Course[] = [
             id: 9,
             name: "Introdução ao MongoDB",
             type: "VIDEO",
-            contentLink: "link_para_video_intro_mongodb"
+            contentLink: "https://www.youtube.com/embed/wHvz6SMKZq4?si=6DZwgOFAchTRQlue"
           },
           {
             id: 10,
             name: "Operações CRUD com Mongoose",
             type: "DOCUMENT",
-            contentLink: "link_para_conteudo_crud_mongoose"
+            contentLink: "https://pedrompinto.medium.com/criar-uma-app-crud-com-node-js-mongodb-9cdc703000ae"
           },
           {
             id: 11,
             name: "Trabalhando com Modelos",
             type: "VIDEO",
-            contentLink: "link_para_video_modelos_mongoose"
+            contentLink: "https://www.youtube.com/embed/h4lS9V3FCRQ?si=M-PAO-D13qfa3Q4t"
           },
           {
             id: 12,

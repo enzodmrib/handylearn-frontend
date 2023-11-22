@@ -3,20 +3,18 @@
 import { Avatar } from "@/components/Avatar";
 import { CourseCardDetailed } from "@/components/CourseCardDetailed";
 import { ReturnButton } from "@/components/ReturnButton";
-import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import threeFingerEmoji from '@/assets/three-fingers.png'
 import { useHandDetection } from "@/hand-detection/hooks/useHandDetection";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { courses } from "@/constants/mocks/course-listing-mock";
+import { GithubSession } from "@/app/providers/GithubSessionProvider";
 
 
 export default function Profile() {
   const router = useRouter()
-  const { data: session } = useSession({
-    required: true,
-  })
   const { currentGesture, setCurrentGesture } = useHandDetection()
+  const { user } = useContext(GithubSession)
 
   const gestureIcons = ['☝', '✌', threeFingerEmoji]
 
@@ -30,23 +28,13 @@ export default function Profile() {
     }
   }, [currentGesture])
 
-  if(!session) {
-    return (
-      <div>
-        <p>
-          Usuário não está autenticado
-        </p>
-      </div>
-    )
-  }
-
   return (
     <div>
       <div className='mt-8 m-auto max-w-[1120px]'>
         <section className="flex flex-col gap-2 items-center bg-zinc-800 rounded-lg p-4">
           <ReturnButton className="self-start" />
           <Avatar />
-          <p className="text-zinc-200 font-bold">{session.user?.name}</p>
+          <p className="text-zinc-200 font-bold">{user?.displayName}</p>
           <p className="text-zinc-200 font-bold">Cursos concluídos: </p>
           <p className="text-2xl text-emerald-500 font-bold">0</p>
         </section>
