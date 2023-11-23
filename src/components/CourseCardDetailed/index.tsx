@@ -2,8 +2,6 @@ import { CourseContext } from "@/app/providers/CourseProvider"
 import Image, { StaticImageData } from "next/image"
 import { ButtonHTMLAttributes, useContext } from "react"
 import { HiArrowRight } from "react-icons/hi2"
-import { finished } from "stream"
-
 
 interface CourseCardDetailedProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   img: string | StaticImageData

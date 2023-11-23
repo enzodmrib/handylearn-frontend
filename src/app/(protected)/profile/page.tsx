@@ -18,8 +18,6 @@ export default function Profile() {
 
   const gestureIcons = ['☝', '✌', threeFingerEmoji]
 
-
-
   useEffect(() => {
     if (currentGesture === 'one_gesture') {
       document.getElementById('course-0')?.click()
