@@ -16,13 +16,16 @@ interface ClassContentProps {
 
 export function ClassContent({ contentUrl = "", classType }: ClassContentProps) {
   const params = useParams()
-  const { currentTest, userProgressInfo } = useContext(CourseContext)
+  const { currentCourse, currentTest, userProgressInfo } = useContext(CourseContext)
   const { currentGesture, setCurrentGesture } = useHandDetection()
   const [player, setPlayer] = useState<YouTubePlayer | null>(null);
   const [isPaused, setIsPaused] = useState(true);
   const [hasStartedOnce, setHasStartedOnce] = useState(false);
 
-  const userFinishedTestIds = userProgressInfo?.finishedTests.map((finishedTest: FinishedTest) => finishedTest.id)
+
+  const userFinishedTestIdsForCurrentCourse = userProgressInfo?.finishedTests.filter((finishedTest: FinishedTest) => finishedTest.courseId === currentCourse?.id)
+  const userFinishedTestIds = userFinishedTestIdsForCurrentCourse?.map((finishedTest: FinishedTest) => finishedTest.id)
+
 
   useEffect(() => {
     if (classType === "VIDEO") {
@@ -53,7 +56,7 @@ export function ClassContent({ contentUrl = "", classType }: ClassContentProps) 
     }
   }, [currentGesture])
 
-  if(!currentTest) {
+  if (!currentTest) {
     return (
       <p>Teste não encontrado para esse módulo</p>
     )

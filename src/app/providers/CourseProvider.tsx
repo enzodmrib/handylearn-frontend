@@ -41,6 +41,9 @@ export function CourseContextProvider({ children }: CourseContextProps) {
   const finishedTestIds = userProgressInfo?.finishedTests.map(finishedTest => finishedTest.id)
   const currentTest = currentModule?.test
 
+  console.log(finishedTestIds)
+  console.log(user)
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -133,6 +136,7 @@ export function CourseContextProvider({ children }: CourseContextProps) {
   }
 
   async function submitTest(testAnswers: ({ questionId: number, answerId: number | null }[])) {
+    setIsLoading(true)
     if (currentCourse && currentModule && currentTest && user) {
       // substituir o teste que ja tenha sido feito, adicionar caso não tenha sido feito
       try {
@@ -183,9 +187,11 @@ export function CourseContextProvider({ children }: CourseContextProps) {
           fetchData()
         }
       } catch (e) {
+        setIsLoading(false)
         console.log(e)
       }
     }
+    setIsLoading(false)
   }
 
   return (
