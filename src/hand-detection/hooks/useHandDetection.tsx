@@ -33,6 +33,8 @@ import { oneGesture } from '../gestures/One'
 import { twoGesture } from '../gestures/Two'
 import { threeGesture } from '../gestures/Three'
 import { okGesture } from '../gestures/Ok'
+import { previousGesture } from '../gestures/Previous'
+import { nextGesture } from '../gestures/Next'
 
 import Webcam from 'react-webcam'
 ///////// NEW STUFF IMPORTS
@@ -111,6 +113,8 @@ export function HandDetectionProvider({ children }: HandDetectionContextProps) {
           oneGesture,
           twoGesture,
           threeGesture,
+          previousGesture,
+          nextGesture
         ]);
 
         const gesture = await GE.estimate(hand[0].landmarks, 4);

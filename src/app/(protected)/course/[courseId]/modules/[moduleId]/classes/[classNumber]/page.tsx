@@ -8,7 +8,6 @@ import { useContext } from "react"
 import { CourseContext } from "@/app/providers/CourseProvider"
 
 export default function Class() {
-  const routeParams = useParams()
   const { currentModule, currentClass } = useContext(CourseContext)
 
   if (!currentClass) {

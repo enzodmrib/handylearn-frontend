@@ -14,11 +14,11 @@ interface FinishedTest {
   id: number
   moduleId: number
   courseId: number
-  question: AnsweredQuestion[]
+  questions: AnsweredQuestion[]
+  grade: number
 }
 
 interface AnsweredQuestion {
   id: number
   answerId: number
-  isCorrect: boolean
 }

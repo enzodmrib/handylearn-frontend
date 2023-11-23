@@ -9,9 +9,6 @@ interface ClassButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export function ClassButton({ name, gesture, className, ...props }: ClassButtonProps) {
   return (
     <div className="flex flex-col items-center gap-2">
-      <span className="text-center">
-        {name}
-      </span>
       <button
         className={`${className} rounded-full w-14 h-14 text-[36px] border-2 flex items-center justify-center`}
         {...props}
@@ -26,6 +23,9 @@ export function ClassButton({ name, gesture, className, ...props }: ClassButtonP
           />
         }
       </button>
+      <p className="text-center w-30">
+        {name}
+      </p>
     </div>
   )
 }

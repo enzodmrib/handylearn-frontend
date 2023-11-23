@@ -5,27 +5,54 @@ import { ReturnButton } from "@/components/ReturnButton";
 import { courses } from "@/constants/mocks/course-listing-mock";
 import { useHandDetection } from "@/hand-detection/hooks/useHandDetection";
 import threeFingerEmoji from '@/assets/three-fingers.png'
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { RiArrowGoBackLine, RiArrowRightLine, RiCheckLine } from "react-icons/ri";
-import { FormEvent, useContext, useState } from 'react'
+import { FormEvent, useContext, useEffect, useState } from 'react'
 import { CourseContext } from "@/app/providers/CourseProvider";
 
 export default function Test() {
+  const params = useParams()
+  const router = useRouter()
   const { currentGesture, setCurrentGesture } = useHandDetection()
-  const { currentTest, currentCourse, currentModule }= useContext(CourseContext)
+  const { currentTest, currentCourse, currentModule, submitTest } = useContext(CourseContext)
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  const [testAnswerIds, setTestAnswerIds] = useState<Array<number | null>>([null, null, null])
+  const [testAnswerIds, setTestAnswerIds] = useState<Array<number | null>>([null, null, null, null])
 
   const question = currentTest?.questions[currentQuestionIndex]
 
   const questionGestureIcons = ['☝', '✌', threeFingerEmoji]
   const alternativeLetters = ['A', 'B', 'C']
 
+  useEffect(() => {
+    if (currentGesture === 'one_gesture') {
+      document.getElementById('alternative-1')?.click()
+    } else if (currentGesture === 'two_gesture') {
+      document.getElementById('alternative-2')?.click()
+    } else if (currentGesture === 'three_gesture') {
+      document.getElementById('alternative-3')?.click()
+    } else if (currentGesture === 'next_gesture') {
+      document.getElementById('next-button')?.click()
+    } else if (currentGesture === 'previous_gesture') {
+      document.getElementById('previous-button')?.click()
+    } else if (currentGesture === 'thumbs_up') {
+      document.getElementById('submit-button')?.click()
+    } 
+  }, [currentGesture])
+
   function handleSubmitTestAnswers(event: FormEvent) {
     event.preventDefault()
-    console.log('submited')
+
+    const testAnswers = currentTest?.questions.map((question, index) => ({ 
+      questionId: question.id, 
+      answerId: testAnswerIds[index] 
+    }))
+
+    if(testAnswers) {
+      submitTest(testAnswers)
+      router.replace(`/course/${params.courseId}/modules/${params.moduleId}/classes/results`)
+    }
   }
 
   if (!currentTest) {
@@ -46,6 +73,7 @@ export default function Test() {
           <p className="text-xl">Pergunta</p>
           {question?.alternatives.map((alternative, index) => (
             <Button
+              id={`alternative-${index + 1}`}
               type="button"
               key={alternative.id}
               className={`
@@ -67,6 +95,7 @@ export default function Test() {
         </div>
         <footer className="flex items-center mt-8 gap-12">
           {currentQuestionIndex >= 1 && <Button
+            id="previous-button"
             type="button"
             text="Anterior"
             icon={<RiArrowGoBackLine />}
@@ -80,6 +109,7 @@ export default function Test() {
 
           {(currentQuestionIndex + 1) < currentTest?.questions.length && (
             <Button
+              id="next-button"
               type="button"
               text="Próximo"
               icon={<RiArrowRightLine />}
@@ -94,11 +124,11 @@ export default function Test() {
 
           {(currentQuestionIndex + 1) === currentTest?.questions.length && (
             <Button
+              id="submit-button"
               type="submit"
               text="Ok!"
               icon={<RiCheckLine />}
               onClick={() => {
-                console.log("click")
                 setCurrentGesture(null)
               }}
               gestureBadgeEmoji='👍'

@@ -14,6 +14,7 @@ interface CourseContextData {
   userProgressInfo: UserProgressInfo | null
   viewedClassesIds: number[] | undefined
   currentTest: Test | undefined
+  submitTest: (testAnswers: { questionId: number, answerId: number | null }[]) => void
 }
 
 interface CourseContextProps {
@@ -37,6 +38,7 @@ export function CourseContextProvider({ children }: CourseContextProps) {
   const currentModule = modules?.find(module => module.id === Number(routeParams.moduleId))
   const currentClass = currentModule?.classes.find(moduleClass => moduleClass.id === Number(routeParams.classNumber))
   const viewedClassesIds = userProgressInfo?.viewedClasses.map((viewedClass) => viewedClass.id)
+  const finishedTestIds = userProgressInfo?.finishedTests.map(finishedTest => finishedTest.id)
   const currentTest = currentModule?.test
 
   useEffect(() => {
@@ -96,7 +98,6 @@ export function CourseContextProvider({ children }: CourseContextProps) {
 
   async function markClassAsViewed() {
     if (currentCourse && currentModule && currentClass && user) {
-
       try {
         if (!viewedClassesIds?.includes(currentClass.id)) {
           const userDocRef = doc(db, "users", user.uid)
@@ -107,7 +108,7 @@ export function CourseContextProvider({ children }: CourseContextProps) {
 
             const userDocData = userDocSnap.data()
 
-            await setDoc(doc(usersRef, user.uid), {
+            const newUserProgressData = {
               ...userDocData,
               viewedClasses: [
                 ...userDocData.viewedClasses,
@@ -117,20 +118,69 @@ export function CourseContextProvider({ children }: CourseContextProps) {
                   courseId: currentCourse.id,
                 }
               ],
-            })
+            }
 
-            setUserProgressInfo({
-              ...userDocData,
-              viewedClasses: [
-                ...userDocData.viewedClasses,
-                {
-                  id: currentClass.id,
-                  moduleId: currentModule.id,
-                  courseId: currentCourse.id,
-                }
-              ],
-            } as UserProgressInfo)
+            await setDoc(doc(usersRef, user.uid), newUserProgressData)
+
+            // setUserProgressInfo(newUserProgressData as UserProgressInfo)
+            fetchData()
           }
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  }
+
+  async function submitTest(testAnswers: ({ questionId: number, answerId: number | null }[])) {
+    if (currentCourse && currentModule && currentTest && user) {
+      // substituir o teste que ja tenha sido feito, adicionar caso não tenha sido feito
+      try {
+        const userDocRef = doc(db, "users", user.uid)
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const usersRef = collection(db, 'users')
+
+          const userDocData = userDocSnap.data()
+
+          let newUserProgressData = userDocData
+
+          const relatedQuestions = currentTest.questions.map(question => {
+            const userAnsweredQuestion = testAnswers?.find(testAnswer => testAnswer.questionId === question.id)
+
+            return ({
+              ...question,
+              selectedAlternativeId: userAnsweredQuestion?.answerId
+            })
+          })
+          const correctQuestions = relatedQuestions.filter(question => question.selectedAlternativeId === question.correctAlternativeId).length
+          const totalQuestions = currentTest.questions.length
+
+          if (finishedTestIds?.includes(currentTest.id)) {
+            newUserProgressData.finishedTests = newUserProgressData.finishedTests.filter((finishedTest: FinishedTest) => finishedTest.id !== currentTest.id)
+          }
+
+          newUserProgressData = {
+            ...newUserProgressData,
+            finishedTests: [
+              ...newUserProgressData.finishedTests,
+              {
+                id: currentTest.id,
+                moduleId: currentModule.id,
+                courseId: currentCourse.id,
+                questions: testAnswers.map(testAnswer => ({
+                  id: testAnswer.questionId,
+                  answerId: testAnswer?.answerId ?? null
+                })),
+                grade: correctQuestions / totalQuestions
+              }
+            ]
+          }
+
+          await setDoc(doc(usersRef, user.uid), newUserProgressData)
+          // setUserProgressInfo(newUserProgressData as UserProgressInfo)
+          fetchData()
         }
       } catch (e) {
         console.log(e)
@@ -147,7 +197,8 @@ export function CourseContextProvider({ children }: CourseContextProps) {
       currentClass,
       userProgressInfo,
       viewedClassesIds,
-      currentTest
+      currentTest,
+      submitTest
     }}>
       {children}
     </CourseContext.Provider>

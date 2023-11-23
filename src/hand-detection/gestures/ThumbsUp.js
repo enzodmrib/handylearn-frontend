@@ -12,6 +12,8 @@ thumbsUpGesture.addDirection(Finger.Thumb, FingerDirection.DiagonalUpLeft, 1.0);
 
 // Index
 thumbsUpGesture.addCurl(Finger.Index, FingerCurl.FullCurl);
+thumbsUpGesture.addDirection(Finger.Index, FingerDirection.HorizontalLeft, 1.0);
+thumbsUpGesture.addDirection(Finger.Index, FingerDirection.HorizontalRight, 1.0);
 thumbsUpGesture.addDirection(Finger.Index, FingerDirection.DiagonalUpLeft, 1.0);
 thumbsUpGesture.addDirection(Finger.Index, FingerDirection.DiagonalUpRight, 1.0);
 
