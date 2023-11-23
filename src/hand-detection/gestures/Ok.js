@@ -13,6 +13,7 @@ okGesture.addDirection(Finger.Thumb, FingerDirection.HorizontalRight, 0.75);
 
 // Index
 okGesture.addCurl(Finger.Index, FingerCurl.HalfCurl, 1.0)
+okGesture.addCurl(Finger.Index, FingerCurl.FullCurl, 1.0)
 okGesture.addCurl(Finger.Index, FingerCurl.VerticalUp, 1.0)
 okGesture.addCurl(Finger.Index, FingerCurl.DiagonalUpLeft, 1.0)
 okGesture.addCurl(Finger.Index, FingerCurl.DiagonalUpRight, 1.0)

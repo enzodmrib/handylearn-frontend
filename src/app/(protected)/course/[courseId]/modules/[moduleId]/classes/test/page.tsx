@@ -70,7 +70,7 @@ export default function Test() {
         </div>
 
         <div className="w-full flex flex-col gap-6 max-w-[52rem]">
-          <p className="text-xl">Pergunta</p>
+          <p className="text-xl">{currentTest.questions[currentQuestionIndex].text}</p>
           {question?.alternatives.map((alternative, index) => (
             <Button
               id={`alternative-${index + 1}`}

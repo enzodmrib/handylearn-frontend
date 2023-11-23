@@ -48,7 +48,7 @@ export function ClassContent({ contentUrl = "", classType }: ClassContentProps) 
   useEffect(() => {
     if (currentGesture === "thumbs_up") {
       document.getElementById("content-button")?.click()
-    } else if (currentGesture === 'ok_gesture') {
+    } else if (currentGesture === 'next_gesture') {
       document.getElementById("results-button")?.click()
     }
   }, [currentGesture])
@@ -132,7 +132,7 @@ export function ClassContent({ contentUrl = "", classType }: ClassContentProps) 
             href={`/course/${params.courseId}/modules/${params.moduleId}/classes/results`}
             className="font-bold border-2 border-emerald-500 text-emerald-500 flex items-center justify-center gap-2 py-4 px-6 rounded-lg"
             icon={<RiListCheck size={32} />}
-            gestureBadgeEmoji={"👌"}
+            gestureBadgeEmoji={"👉"}
             onClick={() => {
               setCurrentGesture(null)
             }}

@@ -8,7 +8,7 @@ import { useContext } from 'react'
 
 export default function Results() {
   const routeParams = useParams()
-  const { currentTest, userProgressInfo } = useContext(CourseContext)
+  const { currentCourse, currentModule, currentTest, userProgressInfo } = useContext(CourseContext)
 
   const answeredCurrentTest = userProgressInfo?.finishedTests.find(finishedTest => finishedTest.id === currentTest?.id)
 
@@ -36,7 +36,8 @@ export default function Results() {
       <div className="bg-zinc-800 rounded-lg p-4 text-zinc-300 font-bold flex flex-col items-center">
         <ReturnButton className="self-start" />
         <div className="flex flex-col items-center gap-2 mb-8">
-          <h1 className="text-2xl">Resultados do teste do módulo x - Curso x</h1>
+          <h1 className="text-2xl">Resultados do teste do módulo: {currentModule?.name}</h1>
+          <h2 className="text-xl font-semibold">{currentCourse?.name}</h2>
         </div>
         <div className="w-full flex flex-col gap-6 max-w-[52rem]">
           {questions?.map((question, index) => {
