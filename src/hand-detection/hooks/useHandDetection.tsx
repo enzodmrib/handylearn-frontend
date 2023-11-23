@@ -49,6 +49,7 @@ interface HandDetectionContextData {
   canvasRef: RefObject<HTMLCanvasElement>
   currentGesture: string | null
   setCurrentGesture: (gesture: string | null) => void
+  isLoadingHandpose: boolean
 }
 
 const HandDetectionContext = createContext({} as HandDetectionContextData);
@@ -57,10 +58,16 @@ export function HandDetectionProvider({ children }: HandDetectionContextProps) {
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const [isLoadingHandpose, setIsLoadingHandpose] = useState(true)
   const [currentGesture, setCurrentGesture] = useState<string | null>(null);
 
   const runHandpose = async () => {
     const net = await handpose.load();
+
+    if (net) {
+      console.log('Handpose model loaded')
+      setIsLoadingHandpose(false)
+    }
 
     //  Loop and detect hands
     setInterval(() => {
@@ -135,7 +142,7 @@ export function HandDetectionProvider({ children }: HandDetectionContextProps) {
   return (
     <HandDetectionContext.Provider
       value={{
-        webcamRef, canvasRef, currentGesture, setCurrentGesture
+        webcamRef, canvasRef, currentGesture, setCurrentGesture, isLoadingHandpose
       }}
     >
       {children}

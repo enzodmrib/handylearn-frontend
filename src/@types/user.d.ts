@@ -1,13 +1,24 @@
-interface AnsweredTest {
-  userId: number,
-  id: number,
-  questions: AnsweredTestQuestion[]
+interface UserProgressInfo {
+  uid: string
+  viewedClasses: ViewedClass[],
+  finishedTests: FinishedTest[]
 }
 
-interface AnsweredTestQuestion {
+interface ViewedClass {
   id: number
-  text: string
-  alternatives: Alternative[]
-  correctAlternativeId: number
-  selectedAlternativeId: number
+  moduleId: number
+  courseId: number
+}
+
+interface FinishedTest {
+  id: number
+  moduleId: number
+  courseId: number
+  question: AnsweredQuestion[]
+}
+
+interface AnsweredQuestion {
+  id: number
+  answerId: number
+  isCorrect: boolean
 }

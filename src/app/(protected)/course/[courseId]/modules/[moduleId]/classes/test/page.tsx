@@ -7,23 +7,18 @@ import { useHandDetection } from "@/hand-detection/hooks/useHandDetection";
 import threeFingerEmoji from '@/assets/three-fingers.png'
 import { useParams } from "next/navigation";
 import { RiArrowGoBackLine, RiArrowRightLine, RiCheckLine } from "react-icons/ri";
-import { FormEvent, useState } from 'react'
+import { FormEvent, useContext, useState } from 'react'
+import { CourseContext } from "@/app/providers/CourseProvider";
 
 export default function Test() {
   const { currentGesture, setCurrentGesture } = useHandDetection()
-  const routeParams = useParams()
+  const { currentTest, currentCourse, currentModule }= useContext(CourseContext)
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const [testAnswerIds, setTestAnswerIds] = useState<Array<number | null>>([null, null, null])
 
-  const currentCourse = courses.find(course => course.id === Number(routeParams.courseId))
-
-  const currentModule = currentCourse?.modules.find(module => module.id === Number(routeParams.moduleId))
-
-  const test = currentModule?.test
-
-  const question = test?.questions[currentQuestionIndex]
+  const question = currentTest?.questions[currentQuestionIndex]
 
   const questionGestureIcons = ['☝', '✌', threeFingerEmoji]
   const alternativeLetters = ['A', 'B', 'C']
@@ -33,7 +28,7 @@ export default function Test() {
     console.log('submited')
   }
 
-  if (!test) {
+  if (!currentTest) {
     return
   }
 
@@ -44,7 +39,7 @@ export default function Test() {
         <div className="flex flex-col items-center gap-2 mb-8">
           <h1 className="text-2xl">{currentCourse?.name}</h1>
           <h2>{currentModule?.name}</h2>
-          <p className="text-xl">{`Questão ${currentQuestionIndex + 1}/${test?.questions.length}`}</p>
+          <p className="text-xl">{`Questão ${currentQuestionIndex + 1}/${currentTest?.questions.length}`}</p>
         </div>
 
         <div className="w-full flex flex-col gap-6 max-w-[52rem]">
@@ -83,7 +78,7 @@ export default function Test() {
             className="p-4 border-2 border-zinc-300 rounded-lg"
           />}
 
-          {(currentQuestionIndex + 1) < test?.questions.length && (
+          {(currentQuestionIndex + 1) < currentTest?.questions.length && (
             <Button
               type="button"
               text="Próximo"
@@ -97,7 +92,7 @@ export default function Test() {
             />
           )}
 
-          {(currentQuestionIndex + 1) === test?.questions.length && (
+          {(currentQuestionIndex + 1) === currentTest?.questions.length && (
             <Button
               type="submit"
               text="Ok!"

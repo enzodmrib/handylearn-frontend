@@ -2,6 +2,8 @@ import Image, { StaticImageData } from "next/image"
 import Link, { LinkProps } from "next/link"
 import { AnchorHTMLAttributes, HTMLProps } from "react"
 import { HiArrowRight } from "react-icons/hi2"
+import placeholderImg from '@/assets/placeholder.png'
+
 
 export type NextLinkProps = LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>
 interface CourseCardSimpleProps extends NextLinkProps {
@@ -11,15 +13,13 @@ interface CourseCardSimpleProps extends NextLinkProps {
 }
 
 export function CourseCardSimple({ img, text, gestureBadgeEmoji,...props }: CourseCardSimpleProps) {
-  console.log(img)
-
   return (
     <Link
       className='relative w-full bg-zinc-800 rounded-lg border-2 border-zinc-400 text-zinc-200 text-xl flex h-[8.75rem]'
       {...props}
     >
       <Image
-        src={img}
+        src={img ?? placeholderImg}
         alt="imagem do curso"
         width={137}
         height={137}

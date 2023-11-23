@@ -8,21 +8,15 @@ import { useHandDetection } from '@/hand-detection/hooks/useHandDetection'
 import { Avatar } from '@/components/Avatar'
 import { Redirect } from '@/components/Redirect'
 import { GithubSession } from '@/app/providers/GithubSessionProvider'
-import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
-import { db } from '@/libs/firebase'
 import { CustomLoading } from '@/components/Loading'
+import { CourseContext } from '@/app/providers/CourseProvider'
 
 export default function Home() {
   const { currentGesture, setCurrentGesture } = useHandDetection()
   const { user } = useContext(GithubSession)
-  const [courses, setCourses] = useState<Course[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const { courses } = useContext(CourseContext)
 
   const gestureIcons = ['☝', '✌', threeFingerEmoji]
-
-  useEffect(() => {
-    getCourses()
-  }, [])
 
   useEffect(() => {
     if (currentGesture === 'one_gesture') {
@@ -35,25 +29,6 @@ export default function Home() {
       document.getElementById('profile-button')?.click()
     }
   }, [currentGesture])
-
-  async function getCourses() {
-    setIsLoading(true)
-
-    const courseCollection = await getDocs(collection(db, 'courses'))
-    const courses = courseCollection.docs.map((doc) => ({ 
-      id: doc.data().id, 
-      img: doc.data().img, 
-      name: doc.data().name 
-    }))
-
-    setCourses(courses as Course[])
-
-    setIsLoading(false)
-  }
-
-  if(isLoading) {
-    return <CustomLoading />
-  }
 
   return (
     <div>

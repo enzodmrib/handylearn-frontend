@@ -7,11 +7,14 @@ import Image from "next/image";
 import { ModuleCard } from "@/components/ModuleCard";
 import threeFingerEmoji from '@/assets/three-fingers.png'
 import { useHandDetection } from "@/hand-detection/hooks/useHandDetection";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { CourseContext } from "@/app/providers/CourseProvider";
+import placeholderImg from '@/assets/placeholder.png'
 
 export default function Course() {
   const { currentGesture, setCurrentGesture } = useHandDetection()
   const routeParams = useParams()
+  const { currentCourse, modules } = useContext(CourseContext)
 
   useEffect(() => {
     if (currentGesture === 'one_gesture') {
@@ -23,9 +26,6 @@ export default function Course() {
     }
   }, [currentGesture])
 
-  const currentCourse = courses.find(course => course.id === Number(routeParams.courseId))
-  const modules = currentCourse?.modules
-
   const gestureIcons = ['☝', '✌', threeFingerEmoji]
 
   return (
@@ -35,7 +35,7 @@ export default function Course() {
         <div className="flex flex-col items-center">
           <div className="rounded-full border-2 border-transparent ring-2 ring-zinc-200 w-fit">
             <Image
-              src={currentCourse?.img ?? ""}
+              src={currentCourse?.img ?? placeholderImg}
               alt="imagem do curso"
               width={60}
               height={60}
@@ -53,7 +53,7 @@ export default function Course() {
               key={module.id}
               title={module.name}
               description={module.description}
-              href={`/course/${routeParams.courseId}/modules/${module.id}/classes/1`}
+              href={`/course/${routeParams.courseId}/modules/${module.id}/classes/${module.classes[0].id}`}
               gestureBadgeEmoji={gestureIcons[index]}
               onClick={() => setCurrentGesture(null)}
             />

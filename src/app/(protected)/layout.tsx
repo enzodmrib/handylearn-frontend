@@ -6,6 +6,8 @@ import { ReactNode, Suspense, useContext, useEffect } from 'react'
 import { CustomLoading } from '@/components/Loading'
 import { GithubSession } from '../providers/GithubSessionProvider'
 import { redirect } from 'next/navigation'
+import { CourseContextProvider } from '../providers/CourseProvider'
+import { useHandDetection } from '@/hand-detection/hooks/useHandDetection'
 
 interface ProtectedLayoutProps {
   children: ReactNode
@@ -13,6 +15,7 @@ interface ProtectedLayoutProps {
 
 export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const { user, isLoadingSession } = useContext(GithubSession)
+  const { isLoadingHandpose } = useHandDetection()
 
   useEffect(() => {
     if (!user && !isLoadingSession) {
@@ -20,17 +23,19 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
     }
   }, [user])
 
-  if(isLoadingSession) {
+  if (isLoadingSession || isLoadingHandpose) {
     return <CustomLoading />
   }
 
   return (
     <main className='h-full bg-zinc-900'>
-      <Suspense fallback={<CustomLoading />}>
-        <Header />
-        {children}
-        <WebcamPanel />
-      </Suspense>
+      <CourseContextProvider>
+        <Suspense fallback={<CustomLoading />}>
+          <Header />
+          {children}
+          <WebcamPanel />
+        </Suspense>
+      </CourseContextProvider>
     </main>
   )
 }

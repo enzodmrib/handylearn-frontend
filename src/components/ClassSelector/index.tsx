@@ -1,23 +1,19 @@
 import Image, { StaticImageData } from "next/image";
-import { ButtonHTMLAttributes, useEffect } from "react";
+import { ButtonHTMLAttributes, useEffect, useContext } from "react";
 import { ClassButton } from "../ClassButton";
 import threeFingerEmoji from '@/assets/three-fingers.png'
 import { useHandDetection } from "@/hand-detection/hooks/useHandDetection";
 import { useParams, useRouter } from "next/navigation";
+import { CourseContext } from "@/app/providers/CourseProvider";
 
 
 interface ClassSelectorProps {
-  currentClassNumber: number
-  classes: {
-    id: number,
-    name: string,
-    type: string,
-    contentLink: string
-  }[],
+  classes: Class[]
 }
 
-export function ClassSelector({ classes, currentClassNumber }: ClassSelectorProps) {
+export function ClassSelector({ classes }: ClassSelectorProps) {
   const { currentGesture, setCurrentGesture } = useHandDetection()
+  const { currentClass, viewedClassesIds } = useContext(CourseContext)
   const router = useRouter()
   const routeParams = useParams()
 
@@ -35,6 +31,10 @@ export function ClassSelector({ classes, currentClassNumber }: ClassSelectorProp
 
   const gestureIcons = ['☝', '✌', threeFingerEmoji, '👌']
 
+  if(!currentClass) {
+    return <p className="text-zinc-300">Não há aulas selecionadas</p>
+  }
+
   return (
     <div className="w-[45rem] flex justify-between">
       {classes.map((moduleClass, index) => {
@@ -43,12 +43,12 @@ export function ClassSelector({ classes, currentClassNumber }: ClassSelectorProp
           key={moduleClass.name}
           gesture={gestureIcons[index]}
           name={moduleClass.name}
-          disabled={currentClassNumber === index + 1}
+          disabled={currentClass.id === index + 1}
           onClick={() => {
-            router.replace(`course/${routeParams.courseId}/modules/${routeParams.moduleId}/classes/${String(index + 1)}`)
+            router.replace(`course/${routeParams.courseId}/modules/${routeParams.moduleId}/classes/${String(moduleClass.id)}`)
             setCurrentGesture(null)
           }}
-          className={`${currentClassNumber >= index + 1 && 'border-emerald-500'} ${currentClassNumber === index + 1 && 'bg-emerald-500'}`}
+          className={`${viewedClassesIds?.includes(moduleClass.id) && 'border-emerald-500'} ${currentClass.id === moduleClass.id && 'bg-emerald-500'}`}
         />
       })}
     </div>

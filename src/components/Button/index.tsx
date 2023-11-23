@@ -21,6 +21,7 @@ export function Button({ icon, text, className, gestureBadgeEmoji, ...props }: B
           :
           <Image
             src={gestureBadgeEmoji}
+            height={24}
             alt="gesto"
           />
         }

@@ -39,6 +39,7 @@ export function Header() {
           id="logout_button"
           title='Sair'
           onClick={() => {
+            console.log('logging-out')
             handleLogout()
             setCurrentGesture(null)
           }}

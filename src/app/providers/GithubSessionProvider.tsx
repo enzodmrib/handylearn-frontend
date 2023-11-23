@@ -32,6 +32,5 @@ export default function GithubSessionProvider({ children }: { children: ReactNod
     })
   }, [user])
 
-
   return <GithubSession.Provider value={{ user, githubSignIn, logOut, isLoadingSession }}>{children}</GithubSession.Provider>
 }

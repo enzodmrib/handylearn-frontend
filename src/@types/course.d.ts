@@ -20,6 +20,7 @@ interface Class {
   name: string
   type: "VIDEO" | "DOCUMENT" | "TEST"
   contentLink: string
+  videoId?: string
 }
 
 interface Test {
